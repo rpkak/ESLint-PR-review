@@ -1,16 +1,16 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {context} from '@actions/github'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    if (context.eventName === 'pull_request') {
+      core.info(JSON.stringify(context.payload.pull_request))
+      let projectRoot = core.getInput('project-root')
+      if (!projectRoot) {
+        projectRoot = process.cwd()
+        core.info(`project-root not set. Useing ${projectRoot}`)
+      }
+    }
   } catch (error) {
     core.setFailed(error.message)
   }

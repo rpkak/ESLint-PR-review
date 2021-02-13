@@ -1,11 +1,14 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'ESLint PR review'
+description: 'It lints with ESLint'
+author: 'rpkak'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  project-root:
+    required: false
+    description: 'The path of the npm project root'
+  src:
+    required: false
+    description: 'The path of the source. Relative to project-root'
+    default: '.'
 runs:
   using: 'node12'
   main: 'dist/index.js'
