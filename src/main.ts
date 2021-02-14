@@ -50,12 +50,12 @@ const run = async (): Promise<void> => {
 
       // if (comments) {
       // octokit.re
-      await octokit.pulls.submitReview({
-        ...context.repo,
-        event: 'APPROVE',
-        pull_number: context.payload.pull_request?.number as number,
-        review_id: -1
-      })
+      // await octokit.pulls.submitReview({
+      //   ...context.repo,
+      //   event: 'APPROVE',
+      //   pull_number: context.payload.pull_request?.number as number,
+      //   review_id: -1
+      // })
       // } else {
       //   await octokit.pulls.createReview({
       //     owner: context.payload.pull_request?.base.repo.owner.login as string,
