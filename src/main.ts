@@ -3,7 +3,7 @@ import {context, getOctokit} from '@actions/github'
 import {ESLint} from 'eslint'
 import {isAbsolute, join} from 'path'
 
-async function run(): Promise<void> {
+const run = async (): Promise<void> => {
   try {
     if (context.eventName === 'pull_request') {
       const octokit = getOctokit(core.getInput('github-token'))
@@ -31,7 +31,7 @@ async function run(): Promise<void> {
         }
       }
 
-      for(const i in comments){
+      for (const i in comments) {
 
 
       }
