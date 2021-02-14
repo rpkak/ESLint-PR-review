@@ -37,15 +37,24 @@ const run = async (): Promise<void> => {
 
 
       }
-
-      if (comments) {
-        await octokit.pulls.createReview({
-          owner: context.payload.pull_request?.base.repo.owner.login as string,
-          repo: context.payload.pull_request?.base.repo.name as string,
-          pull_number: context.payload.pull_request?.number as number,
-          event: 'REQUEST_CHANGES',
-          comments
-        })
+      if (true) {
+        // await octokit.pulls.createReview({
+        //   owner: context.payload.pull_request?.base.repo.owner.login as string,
+        //   repo: context.payload.pull_request?.base.repo.name as string,
+        //   pull_number: context.payload.pull_request?.number as number,
+        //   event: 'REQUEST_CHANGES',
+        //   comments,
+          
+        // })
+        octokit.request(
+          'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
+          {
+            ...context.repo,
+            pull_number: context.payload.pull_request?.number as number,
+            body: 'ody',
+            comments
+          }
+        )
       } else {
         await octokit.pulls.createReview({
           owner: context.payload.pull_request?.base.repo.owner.login as string,
