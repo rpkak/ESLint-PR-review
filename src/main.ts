@@ -86,7 +86,7 @@ const run = async (): Promise<void> => {
           review_id: review.data.id
         }
       )
-      if (comments) {
+      if (comments.length) {
         const formatter = await eslint.loadFormatter(
           core.getInput('eslint-format')
         )
