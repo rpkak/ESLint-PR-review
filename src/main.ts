@@ -87,7 +87,9 @@ const run = async (): Promise<void> => {
         }
       )
       if (comments) {
-        const formatter = await eslint.loadFormatter('table')
+        const formatter = await eslint.loadFormatter(
+          core.getInput('eslint-format')
+        )
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
       }
@@ -98,7 +100,9 @@ const run = async (): Promise<void> => {
           0
         )
       ) {
-        const formatter = await eslint.loadFormatter('table')
+        const formatter = await eslint.loadFormatter(
+          core.getInput('eslint-format')
+        )
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
       }
