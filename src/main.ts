@@ -66,7 +66,7 @@ const run = async (): Promise<void> => {
           }
         }
       }
-
+      core.info(JSON.stringify(comments))
 
       for (const i in comments) {
 
