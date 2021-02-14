@@ -26,7 +26,8 @@ const run = async (): Promise<void> => {
           comments.push({
             path: file.filePath.replace(process.cwd() + '/', ''),
             body: message.message,
-            start_line: message.line,
+            start_line:
+              message.line === message.endLine ? undefined : message.line,
             line: message.endLine
           })
         }
