@@ -37,7 +37,7 @@ async function run(): Promise<void> {
       }
 
       if (comments) {
-        octokit.pulls.createReview({
+        await octokit.pulls.createReview({
           owner: context.payload.pull_request?.base.repo.owner.login as string,
           repo: context.payload.pull_request?.base.repo.name as string,
           pull_number: context.payload.pull_request?.number as number,
@@ -45,7 +45,7 @@ async function run(): Promise<void> {
           comments
         })
       } else {
-        octokit.pulls.createReview({
+        await octokit.pulls.createReview({
           owner: context.payload.pull_request?.base.repo.owner.login as string,
           repo: context.payload.pull_request?.base.repo.name as string,
           pull_number: context.payload.pull_request?.number as number,
