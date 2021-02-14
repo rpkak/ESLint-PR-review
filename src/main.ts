@@ -55,6 +55,7 @@ const run = async (): Promise<void> => {
       }
     }
   } catch (error) {
+    core.info(error)
     core.setFailed(error.message)
   }
 }
