@@ -1,5 +1,5 @@
 # ESLint PR review
-## Version: v0.0.1 Alpha
+Version: v0.0.1 Alpha
 
 A simple workflow, that creates pull request reviews for ESLint problems
 
