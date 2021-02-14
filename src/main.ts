@@ -75,8 +75,10 @@ const run = async (): Promise<void> => {
         {
           ...context.repo,
           pull_number: context.payload.pull_request?.number as number,
-          body: comments.length ? `## ${comments.length} Problems found` : undefined,
-          comments: comments,
+          body: comments.length
+            ? `## ${comments.length} Problems found`
+            : undefined,
+          comments,
           headers: {
             accept: 'application/vnd.github.v3+json'
           }
