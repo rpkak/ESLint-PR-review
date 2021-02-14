@@ -23,29 +23,49 @@ const run = async (): Promise<void> => {
       const comments = []
       for (const file of resultArr) {
         for (const message of file.messages) {
-          let body = message.message
           if (message.fix) {
-            core.info(
-              readFileSync(file.filePath)
-                .toString()
-                .substr(
-                  message.fix.range[0],
-                  message.fix.range[1] - message.fix.range[0]
-                )
-            )
-            core.info(
-              '==================================================================='
-            )
+            const normalFileContent = readFileSync(file.filePath).toString()
+            const normalLines = normalFileContent.split('\n')
+            const fixedFileContent =
+              normalFileContent.substr(0, message.fix.range[0]) +
+              message.fix.text +
+              normalFileContent.substr(message.fix.range[1])
+            const fixedLines = fixedFileContent.split('\n')
+            let startLine = 0
+            while (normalLines[startLine] === fixedLines[startLine]) {
+              startLine++
+            }
+            const difference = normalLines.length - fixedLines.length
+            let line = normalLines.length
+            while (normalLines[line] === fixedLines[line - difference]) {
+              line--
+            }
+
+            const newLines = fixedLines.slice(startLine, line - difference + 1)
+
+            startLine++
+            line++
+
+            comments.push({
+              path: file.filePath.replace(`${process.cwd()}/`, ''),
+              body: `${message.message}\n\`\`\`suggestion\n${newLines.join(
+                '\n'
+              )}\n\`\`\``,
+              start_line: startLine === line ? undefined : startLine,
+              line
+            })
+          } else {
+            comments.push({
+              path: file.filePath.replace(`${process.cwd()}/`, ''),
+              body: message.message,
+              start_line:
+                message.line === message.endLine ? undefined : message.line,
+              line: message.endLine
+            })
           }
-          comments.push({
-            path: file.filePath.replace(`${process.cwd()}/`, ''),
-            body,
-            start_line:
-              message.line === message.endLine ? undefined : message.line,
-            line: message.endLine
-          })
         }
       }
+
 
       for (const i in comments) {
 
