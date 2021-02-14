@@ -25,7 +25,11 @@ const run = async (): Promise<void> => {
         for (const message of file.messages) {
           let body = message.message
           if (message.fix) {
-            core.info(readFileSync(file.filePath).toString())
+            core.info(
+              readFileSync(file.filePath)
+                .toString()
+                .substr(message.fix.range[0], message.fix.range[1])
+            )
             core.info(
               '==================================================================='
             )
