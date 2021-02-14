@@ -68,43 +68,25 @@ const run = async (): Promise<void> => {
       }
       core.info(JSON.stringify(comments))
 
-      for (const i in comments) {
-      }
-      let review;
-      if (true) {
-        // await octokit.pulls.createReview({
-        //   owner: context.payload.pull_request?.base.repo.owner.login as string,
-        //   repo: context.payload.pull_request?.base.repo.name as string,
-        //   pull_number: context.payload.pull_request?.number as number,
-        //   event: 'REQUEST_CHANGES',
-        //   comments,
-
-        // })
-        review = await octokit.request(
-          'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
-          {
-            ...context.repo,
-            pull_number: context.payload.pull_request?.number as number,
-            body: 'ody',
-            comments,
-            headers: {
-              accept: 'application/vnd.github.v3+json'
-            }
-          }
-        )
-      } else {
-        await octokit.pulls.createReview({
-          owner: context.payload.pull_request?.base.repo.owner.login as string,
-          repo: context.payload.pull_request?.base.repo.name as string,
+      // for (const i in comments) {
+      // }
+      const review = await octokit.request(
+        'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
+        {
+          ...context.repo,
           pull_number: context.payload.pull_request?.number as number,
-          event: 'APPROVE'
-        })
-      }
+          body: comments ? `## ${comments.length} Problems found` : undefined,
+          comments: comments || undefined,
+          headers: {
+            accept: 'application/vnd.github.v3+json'
+          }
+        }
+      )
       await octokit.request(
         'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events',
         {
           ...context.repo,
-          event: 'REQUEST_CHANGES',
+          event: comments ? 'REQUEST_CHANGES' : 'APPROVE',
           pull_number: context.payload.pull_request?.number as number,
           review_id: review.data.id
         }
