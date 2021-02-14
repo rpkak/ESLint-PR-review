@@ -48,18 +48,25 @@ const run = async (): Promise<void> => {
         //   comments,
           
         // })
-        core.info(JSON.stringify(await octokit.request(
-          'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
-          {
-            ...context.repo,
-            pull_number: context.payload.pull_request?.number as number,
-            body: 'ody',
-            comments,
-            headers: {
-              accept: 'application/vnd.github.v3+json'
-            }
-          }
-        )))
+        // core.info(JSON.stringify(await octokit.request(
+        //   'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
+        //   {
+        //     ...context.repo,
+        //     pull_number: context.payload.pull_request?.number as number,
+        //     body: 'ody',
+        //     comments,
+        //     headers: {
+        //       accept: 'application/vnd.github.v3+json'
+        //     }
+        //   }
+        // )))
+        await octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events',{
+          ...context.repo,
+          event: 'REQUEST_CHANGES',
+          pull_number: context.payload.pull_request?.number as number,
+          review_id: 590037147
+
+        })
       } else {
         await octokit.pulls.createReview({
           owner: context.payload.pull_request?.base.repo.owner.login as string,
