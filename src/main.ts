@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
-import { context, getOctokit } from '@actions/github'
-import { ESLint } from 'eslint'
-import { readFileSync } from 'fs'
-import { isAbsolute, join } from 'path'
+import {context, getOctokit} from '@actions/github'
+import {ESLint} from 'eslint'
+import {readFileSync} from 'fs'
+import {isAbsolute, join} from 'path'
 
 const run = async (): Promise<void> => {
   try {
