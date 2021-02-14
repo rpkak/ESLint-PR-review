@@ -9,7 +9,7 @@ inputs:
   src:
     required: false
     description: 'The path of the source. Relative to project-root'
-    default: './*'
+    default: './**'
   github-token:
     required: true
     description: The GitHut token, to access to this repo
