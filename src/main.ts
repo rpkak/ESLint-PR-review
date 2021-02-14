@@ -28,7 +28,10 @@ const run = async (): Promise<void> => {
             core.info(
               readFileSync(file.filePath)
                 .toString()
-                .substr(message.fix.range[0], message.fix.range[1])
+                .substr(
+                  message.fix.range[0],
+                  message.fix.range[1] - message.fix.range[0]
+                )
             )
             core.info(
               '==================================================================='
