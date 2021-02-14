@@ -25,10 +25,11 @@ const run = async (): Promise<void> => {
           comments.push({
             path: file.filePath,
             body: message.message,
-            start_line: message.line,
-            start_side: 'RIGHT',
-            line: message.endLine,
-            side: 'RIGHT'
+            // start_line: message.line,
+            // start_side: 'RIGHT',
+            // line: message.endLine,
+            // side: 'RIGHT'
+            position: message.endLine
           })
         }
       }
