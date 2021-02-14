@@ -16,7 +16,7 @@ jobs:
           src: ./src/**
 ```
 
-Use `rpkak/ESLint-PR-review@latest` to get the latest version ESLint PR review.
+Use `rpkak/ESLint-PR-review@latest` to get the latest none development version ESLint PR review.
 
 Please report everything like bugs by creating an [issue](https://github.com/rpkak/ESLint-PR-review/issues/new/choose).
 
