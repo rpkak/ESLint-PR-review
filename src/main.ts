@@ -22,9 +22,9 @@ const run = async (): Promise<void> => {
       const comments = []
       for (const file of resultArr) {
         for (const message of file.messages) {
-          core.info(file.filePath)
+          core.info(file.filePath.replace(process.cwd(),'.'))
           comments.push({
-            path: file.filePath,
+            path: file.filePath.replace(process.cwd(),'.'),
             body: message.message,
             // start_line: message.line,
             // start_side: 'RIGHT',
