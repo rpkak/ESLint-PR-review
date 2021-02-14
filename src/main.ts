@@ -75,8 +75,8 @@ const run = async (): Promise<void> => {
         {
           ...context.repo,
           pull_number: context.payload.pull_request?.number as number,
-          body: comments ? `## ${comments.length} Problems found` : undefined,
-          comments: comments || undefined,
+          body: comments.length ? `## ${comments.length} Problems found` : undefined,
+          comments: comments,
           headers: {
             accept: 'application/vnd.github.v3+json'
           }
@@ -86,7 +86,7 @@ const run = async (): Promise<void> => {
         'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events',
         {
           ...context.repo,
-          event: comments ? 'REQUEST_CHANGES' : 'APPROVE',
+          event: comments.length ? 'REQUEST_CHANGES' : 'APPROVE',
           pull_number: context.payload.pull_request?.number as number,
           review_id: review.data.id
         }
