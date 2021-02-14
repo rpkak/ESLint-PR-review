@@ -52,7 +52,10 @@ const run = async (): Promise<void> => {
             ...context.repo,
             pull_number: context.payload.pull_request?.number as number,
             body: 'ody',
-            comments
+            comments,
+            headers: {
+              accept: 'application/vnd.github.v3+json'
+            }
           }
         )
       } else {
@@ -60,7 +63,10 @@ const run = async (): Promise<void> => {
           owner: context.payload.pull_request?.base.repo.owner.login as string,
           repo: context.payload.pull_request?.base.repo.name as string,
           pull_number: context.payload.pull_request?.number as number,
-          event: 'APPROVE'
+          event: 'APPROVE',
+          headers:{
+            accept: 'application/vnd.github.v3+json'
+          }
         })
       }
     }
