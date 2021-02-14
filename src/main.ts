@@ -45,7 +45,8 @@ const run = async (): Promise<void> => {
 
             startLine++
             line++
-
+            core.info(startLine.toString())
+            core.info(line.toString())
             comments.push({
               path: file.filePath.replace(`${process.cwd()}/`, ''),
               body: `${message.message}\n\`\`\`suggestion\n${newLines.join(
