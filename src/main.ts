@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import { context, getOctokit } from '@actions/github'
 import { ESLint } from 'eslint'
+import { readFileSync } from 'fs'
 import { isAbsolute, join } from 'path'
 
 const run = async (): Promise<void> => {
@@ -22,10 +23,16 @@ const run = async (): Promise<void> => {
       const comments = []
       for (const file of resultArr) {
         for (const message of file.messages) {
-          core.info(file.filePath.replace(process.cwd() + '/', ''))
+          let body = message.message
+          if (message.fix) {
+            core.info(readFileSync(file.filePath).toString())
+            core.info(
+              '==================================================================='
+            )
+          }
           comments.push({
-            path: file.filePath.replace(process.cwd() + '/', ''),
-            body: message.message,
+            path: file.filePath.replace(`${process.cwd()}/`, ''),
+            body,
             start_line:
               message.line === message.endLine ? undefined : message.line,
             line: message.endLine
@@ -78,7 +85,7 @@ const run = async (): Promise<void> => {
       )
     }
   } catch (error) {
-    core.info(error)
+    // core.info(error)
     core.setFailed(error.message)
   }
 }
