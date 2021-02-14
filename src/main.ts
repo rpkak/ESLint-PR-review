@@ -26,7 +26,8 @@ const run = async (): Promise<void> => {
             path: file.filePath,
             body: message.message,
             start_line: message.line,
-            line: message.endLine
+            line: message.endLine,
+            position: 1
           })
         }
       }
