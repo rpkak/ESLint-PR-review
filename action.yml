@@ -5,10 +5,18 @@ inputs:
   project-root:
     required: false
     description: 'The path of the npm project root'
+    default: '.'
   src:
     required: false
     description: 'The path of the source. Relative to project-root'
-    default: '.'
+    default: './**'
+  github-token:
+    required: true
+    description: The GitHut token, to access to this repo
+  eslint-format:
+    required: false
+    description: 'The ESLint format for displaying in log. View https://eslint.org/docs/user-guide/formatters/'
+    default: stylish
 runs:
   using: 'node12'
   main: 'dist/index.js'
