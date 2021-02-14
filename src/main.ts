@@ -87,6 +87,11 @@ const run = async (): Promise<void> => {
           review_id: review.data.id
         }
       )
+      if(comments.length){
+        const formatter = await eslint.loadFormatter('table')
+        const formatted = formatter.format(resultArr)
+        core.setFailed(formatted)
+      }
     }
   } catch (error) {
     core.setFailed(error.message)
