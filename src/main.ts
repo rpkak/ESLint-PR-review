@@ -16,9 +16,8 @@ const run = async (): Promise<void> => {
       const eslint = new ESLint({
         cwd: projectRoot
       })
-      core.debug(projectRoot)
+
       const resultArr = await eslint.lintFiles(core.getInput('src'))
-      core.debug(JSON.stringify(resultArr))
 
       const comments = []
       for (const file of resultArr) {
@@ -45,8 +44,6 @@ const run = async (): Promise<void> => {
 
             startLine++
             line++
-            core.info(startLine.toString())
-            core.info(line.toString())
             comments.push({
               path: file.filePath.replace(`${process.cwd()}/`, ''),
               body: `${message.message}\n\`\`\`suggestion\n${newLines.join(
@@ -66,10 +63,7 @@ const run = async (): Promise<void> => {
           }
         }
       }
-      core.info(JSON.stringify(comments))
 
-      // for (const i in comments) {
-      // }
       const review = await octokit.request(
         'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
         {
@@ -95,7 +89,6 @@ const run = async (): Promise<void> => {
       )
     }
   } catch (error) {
-    // core.info(error)
     core.setFailed(error.message)
   }
 }
