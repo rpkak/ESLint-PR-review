@@ -1,5 +1,8 @@
 name: 'ESLint PR review'
 description: 'It lints with ESLint'
+branding:
+  icon: aperture
+  color: blue
 author: 'rpkak'
 inputs:
   project-root:
