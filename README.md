@@ -1,5 +1,4 @@
 # ESLint PR review
-Version: v0.0.1 Alpha
 
 A simple workflow, that creates pull request reviews for ESLint problems
 
@@ -16,5 +15,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           src: ./src/**
 ```
+
+Version: v0.0.1 Alpha
 
 by [rpkak](https://github.com/rpkak)
