@@ -1,23 +1,22 @@
 import * as core from '@actions/core'
-import {context, getOctokit} from '@actions/github'
-import {ESLint} from 'eslint'
-import {readFileSync} from 'fs'
-import {isAbsolute, join} from 'path'
+import { context, getOctokit } from '@actions/github'
+import { ESLint } from 'eslint'
+import { readFileSync } from 'fs'
+import { isAbsolute, join } from 'path'
 
 const run = async (): Promise<void> => {
   try {
+    let projectRoot = core.getInput('project-root')
+    if (!isAbsolute(projectRoot)) {
+      projectRoot = join(process.cwd(), projectRoot)
+    }
+    const eslint = new ESLint({
+      cwd: projectRoot
+    })
+
+    const resultArr = await eslint.lintFiles(core.getInput('src'))
     if (context.eventName === 'pull_request') {
       const octokit = getOctokit(core.getInput('github-token'))
-
-      let projectRoot = core.getInput('project-root')
-      if (!isAbsolute(projectRoot)) {
-        projectRoot = join(process.cwd(), projectRoot)
-      }
-      const eslint = new ESLint({
-        cwd: projectRoot
-      })
-
-      const resultArr = await eslint.lintFiles(core.getInput('src'))
 
       const comments = []
       for (const file of resultArr) {
@@ -87,7 +86,18 @@ const run = async (): Promise<void> => {
           review_id: review.data.id
         }
       )
-      if(comments.length){
+      if (comments) {
+        const formatter = await eslint.loadFormatter('table')
+        const formatted = formatter.format(resultArr)
+        core.setFailed(formatted)
+      }
+    } else {
+      if (
+        resultArr.reduce(
+          (sum, result) => sum + result.errorCount + result.warningCount,
+          0
+        )
+      ) {
         const formatter = await eslint.loadFormatter('table')
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
