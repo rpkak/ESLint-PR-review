@@ -22,6 +22,7 @@ const run = async (): Promise<void> => {
       const comments = []
       for (const file of resultArr) {
         for (const message of file.messages) {
+          core.info(file.filePath)
           comments.push({
             path: file.filePath,
             body: message.message,
