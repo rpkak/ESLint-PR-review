@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
-import { context, getOctokit } from '@actions/github'
-import { ESLint } from 'eslint'
-import { isAbsolute, join } from 'path'
+import {context, getOctokit} from '@actions/github'
+import {ESLint} from 'eslint'
+import {isAbsolute, join} from 'path'
 
 const run = async (): Promise<void> => {
   try {
@@ -22,9 +22,9 @@ const run = async (): Promise<void> => {
       const comments = []
       for (const file of resultArr) {
         for (const message of file.messages) {
-          core.info(file.filePath.replace(process.cwd() + '/', ''))
+          core.info(file.filePath.replace(process.cwd()+'/',''))
           comments.push({
-            path: file.filePath.replace(process.cwd() + '/', ''),
+            path: file.filePath.replace(process.cwd()+'/',''),
             body: message.message,
             // start_line: message.line,
             // start_side: 'RIGHT',
@@ -46,34 +46,27 @@ const run = async (): Promise<void> => {
         //   pull_number: context.payload.pull_request?.number as number,
         //   event: 'REQUEST_CHANGES',
         //   comments,
-
+          
         // })
-        // octokit.request(
-        //   'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
-        //   {
-        //     ...context.repo,
-        //     pull_number: context.payload.pull_request?.number as number,
-        //     body: 'ody',
-        //     comments,
-        //     headers: {
-        //       accept: 'application/vnd.github.v3+json'
-        //     }
-        //   }
-        // )
-        octokit.request('POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events', {
+        core.info(JSON.stringify(await octokit.request(
+          'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
+          {
             ...context.repo,
             pull_number: context.payload.pull_request?.number as number,
-            event: 'REQUEST_CHANGES',
-            review_id: context.payload.pull_request?.number as number
+            body: 'ody',
+            comments,
+            headers: {
+              accept: 'application/vnd.github.v3+json'
+            }
           }
-        )
+        )))
       } else {
         await octokit.pulls.createReview({
           owner: context.payload.pull_request?.base.repo.owner.login as string,
           repo: context.payload.pull_request?.base.repo.name as string,
           pull_number: context.payload.pull_request?.number as number,
           event: 'APPROVE',
-          headers: {
+          headers:{
             accept: 'application/vnd.github.v3+json'
           }
         })
