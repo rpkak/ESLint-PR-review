@@ -29,7 +29,6 @@ const run = async (): Promise<void> => {
             // start_side: 'RIGHT',
             // line: message.endLine,
             // side: 'RIGHT'
-            position: message.endLine
           })
         }
       }
