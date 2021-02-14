@@ -27,7 +27,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "@octokit/webhooks": "^8.2.0",
+    "@octokit/webhooks": "^8.3.0",
     "eslint": "^7.19.0"
   },
   "devDependencies": {
