@@ -88,7 +88,7 @@ const run = async (): Promise<void> => {
         }
       )
       if(comments.length){
-        const formatter = await eslint.loadFormatter('stylish')
+        const formatter = await eslint.loadFormatter('table')
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
       }
