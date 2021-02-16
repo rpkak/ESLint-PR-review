@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo $INPUT_PROJECT-ROOT
+echo $1

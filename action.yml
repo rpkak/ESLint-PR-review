@@ -23,3 +23,5 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.project-root, inputs.src, inputs.github-token, inputs.eslint-format }}
