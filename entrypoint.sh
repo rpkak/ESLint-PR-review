@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $1
+cd ESLint-PR-review
 
 npm ci
 
