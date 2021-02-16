@@ -1,3 +1,7 @@
 #!/bin/bash
 
-echo $1
+cd $1
+
+npm ci
+
+npm list
