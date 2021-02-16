@@ -108,6 +108,7 @@ const run = async (): Promise<void> => {
       }
     }
   } catch (error) {
+    core.info(error.stack)
     core.setFailed(error.message)
   }
 }

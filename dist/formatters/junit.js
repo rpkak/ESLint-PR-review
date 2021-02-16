@@ -1,9 +1,9 @@
-module.exports =
+require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 845:
+/***/ 878:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 /**
@@ -12,7 +12,7 @@ module.exports =
  */
 
 
-const xmlEscape = __nccwpck_require__(239);
+const xmlEscape = __nccwpck_require__(112);
 const path = __nccwpck_require__(622);
 
 //------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ module.exports = function(results) {
 
 /***/ }),
 
-/***/ 239:
+/***/ 112:
 /***/ ((module) => {
 
 /**
@@ -178,6 +178,7 @@ module.exports = require("path");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(845);
+/******/ 	return __nccwpck_require__(878);
 /******/ })()
 ;
+//# sourceMappingURL=junit.js.map

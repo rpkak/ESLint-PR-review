@@ -1,14 +1,14 @@
-module.exports =
+require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 166:
+/***/ 243:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
-const XHTMLEntities = __nccwpck_require__(361);
+const XHTMLEntities = __nccwpck_require__(96);
 
 const hexNumber = /^[\da-fA-F]+$/;
 const decimalNumber = /^\d+$/;
@@ -92,14 +92,14 @@ module.exports = function(options) {
 // This can be different instances from the actual `tokTypes` this plugin uses.
 Object.defineProperty(module.exports, "tokTypes", ({
   get: function get_tokTypes() {
-    return getJsxTokens(__nccwpck_require__(832)).tokTypes;
+    return getJsxTokens(__nccwpck_require__(390)).tokTypes;
   },
   configurable: true,
   enumerable: true
 }));
 
 function plugin(options, Parser) {
-  const acorn = Parser.acorn || __nccwpck_require__(832);
+  const acorn = Parser.acorn || __nccwpck_require__(390);
   const acornJsx = getJsxTokens(acorn);
   const tt = acorn.tokTypes;
   const tok = acornJsx.tokTypes;
@@ -498,7 +498,7 @@ function plugin(options, Parser) {
 
 /***/ }),
 
-/***/ 361:
+/***/ 96:
 /***/ ((module) => {
 
 module.exports = {
@@ -760,7 +760,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 832:
+/***/ 390:
 /***/ (function(__unused_webpack_module, exports) {
 
 (function (global, factory) {
@@ -5952,7 +5952,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 42:
+/***/ 54:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -6016,11 +6016,11 @@ module.exports = {
 
 
 
-const acorn = __nccwpck_require__(832);
-const jsx = __nccwpck_require__(166);
-const astNodeTypes = __nccwpck_require__(914);
-const espree = __nccwpck_require__(783);
-const { getLatestEcmaVersion, getSupportedEcmaVersions } = __nccwpck_require__(457);
+const acorn = __nccwpck_require__(390);
+const jsx = __nccwpck_require__(243);
+const astNodeTypes = __nccwpck_require__(37);
+const espree = __nccwpck_require__(320);
+const { getLatestEcmaVersion, getSupportedEcmaVersions } = __nccwpck_require__(449);
 
 // To initialize lazily.
 const parsers = {
@@ -6096,7 +6096,7 @@ function parse(code, options) {
 // Public
 //------------------------------------------------------------------------------
 
-exports.version = __nccwpck_require__(598).version;
+exports.version = __nccwpck_require__(901).version;
 
 exports.tokenize = tokenize;
 
@@ -6127,7 +6127,7 @@ exports.Syntax = (function() {
 
 /* istanbul ignore next */
 exports.VisitorKeys = (function() {
-    return __nccwpck_require__(709).KEYS;
+    return __nccwpck_require__(454).KEYS;
 }());
 
 exports.latestEcmaVersion = getLatestEcmaVersion();
@@ -6137,7 +6137,7 @@ exports.supportedEcmaVersions = getSupportedEcmaVersions();
 
 /***/ }),
 
-/***/ 914:
+/***/ 37:
 /***/ ((module) => {
 
 "use strict";
@@ -6241,15 +6241,15 @@ module.exports = {
 
 /***/ }),
 
-/***/ 783:
+/***/ 320:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
 /* eslint-disable no-param-reassign*/
-const TokenTranslator = __nccwpck_require__(822);
-const { normalizeOptions } = __nccwpck_require__(457);
+const TokenTranslator = __nccwpck_require__(598);
+const { normalizeOptions } = __nccwpck_require__(449);
 
 const STATE = Symbol("espree's internal state");
 const ESPRIMA_FINISH_NODE = Symbol("espree's esprimaFinishNode");
@@ -6535,7 +6535,7 @@ module.exports = () => Parser => {
 
 /***/ }),
 
-/***/ 457:
+/***/ 449:
 /***/ ((module) => {
 
 "use strict";
@@ -6649,7 +6649,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 822:
+/***/ 598:
 /***/ ((module) => {
 
 "use strict";
@@ -6920,7 +6920,7 @@ module.exports = TokenTranslator;
 
 /***/ }),
 
-/***/ 709:
+/***/ 454:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -7017,7 +7017,7 @@ module.exports = JSON.parse("{\"AssignmentExpression\":[\"left\",\"right\"],\"As
 
 /***/ }),
 
-/***/ 598:
+/***/ 901:
 /***/ ((module) => {
 
 "use strict";
@@ -7063,6 +7063,7 @@ module.exports = {"version":"7.3.1"};
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(42);
+/******/ 	return __nccwpck_require__(54);
 /******/ })()
 ;
+//# sourceMappingURL=espree.js.map
