@@ -1,13 +1,13 @@
 #!/bin/bash
 
-deou() {
+debug() {
     while read -r data; do
         echo "::debug::$data"
     done
 }
 
-echo  "Install ESLint-PR-review Packages:" | deou
-npm ci --prefix /ESLint-PR-review | deou
+echo  "Install ESLint-PR-review Packages:" | debug
+npm ci --prefix /ESLint-PR-review | debug
 
-echo "Install Project Packages:" | deou
-npm ci --prefix $1 | deou
+echo "Install Project Packages:" | debug
+npm ci --prefix $1 | debug
