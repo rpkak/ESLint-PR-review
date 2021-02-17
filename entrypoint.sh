@@ -1,13 +1,16 @@
 #!/bin/bash
 
 debug() {
-    echo "::debug::$1"
+    read out
+    echo $out
 }
 
-debug "Install ESLint-PR-review Packages:"
-debug "$(npm ci --prefix /ESLint-PR-review)"
-debug ""
+echo  "Install ESLint-PR-review Packages:" | debug
+npm ci --prefix /ESLint-PR-review | debug
+echo | debug
 
-debug "Install Project Packages:"
-debug "$(npm ci --prefix $1)"
-debug ""
+echo "Install Project Packages:" | debug
+npm ci --prefix $1 | debug
+echo | debug
+
+
