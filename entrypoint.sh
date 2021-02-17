@@ -11,3 +11,5 @@ npm ci --prefix /ESLint-PR-review | debug
 
 echo "Install Project Packages:" | debug
 npm ci --prefix $1 | debug
+
+node /ESLint-PR-review/lib/main.js
