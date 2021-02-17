@@ -105,7 +105,7 @@ const run = async (): Promise<void> => {
       }
     }
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed(error)
   }
 }
 
