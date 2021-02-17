@@ -1,12 +1,13 @@
 import * as core from '@actions/core'
-import {context, getOctokit} from '@actions/github'
-import {ESLint} from 'eslint'
-import {readFileSync} from 'fs'
-import {isAbsolute, join} from 'path'
+import { context, getOctokit } from '@actions/github'
+import { ESLint } from 'eslint'
+import { readFileSync } from 'fs'
+import { isAbsolute, join } from 'path'
+import { argv } from 'process'
 
 const run = async (): Promise<void> => {
   try {
-    let projectRoot = core.getInput('project-root')
+    let projectRoot = argv[2]
     if (!isAbsolute(projectRoot)) {
       projectRoot = join(process.cwd(), projectRoot)
     }
@@ -14,9 +15,9 @@ const run = async (): Promise<void> => {
       cwd: projectRoot
     })
 
-    const resultArr = await eslint.lintFiles(core.getInput('src'))
+    const resultArr = await eslint.lintFiles(argv[3])
     if (context.eventName === 'pull_request') {
-      const octokit = getOctokit(core.getInput('github-token'))
+      const octokit = getOctokit(argv[4])
 
       const comments = []
       for (const file of resultArr) {
@@ -87,9 +88,7 @@ const run = async (): Promise<void> => {
         }
       )
       if (comments.length) {
-        const formatter = await eslint.loadFormatter(
-          core.getInput('eslint-format')
-        )
+        const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
       }
@@ -100,9 +99,7 @@ const run = async (): Promise<void> => {
           0
         )
       ) {
-        const formatter = await eslint.loadFormatter(
-          core.getInput('eslint-format')
-        )
+        const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
       }
