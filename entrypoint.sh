@@ -2,3 +2,4 @@
 
 ls
 pwd
+ls /
