@@ -65,6 +65,7 @@ const run = async (): Promise<void> => {
           }
         }
       }
+      console.log(projectRoot)
 
       const review = await octokit.request(
         'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
@@ -80,7 +81,8 @@ const run = async (): Promise<void> => {
           }
         }
       )
-      await octokit.request(
+    console.log(projectRoot)
+    await octokit.request(
         'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events',
         {
           ...context.repo,
