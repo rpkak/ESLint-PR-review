@@ -18,4 +18,4 @@ npm run package --prefix /ESLint-PR-review | debug
 echo "Install Project Packages:" | debug
 npm ci --prefix $1 | debug
 
-npm start --prefix /ESLint-PR-review $1 $2 $3 $4
+node /ESLint-PR-review/lib/main.js $1 $2 $3 $4
