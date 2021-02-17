@@ -1,9 +1,9 @@
 #!/bin/bash
 
 deou() {
-    while read -r data; do
-        echo "::debug::$data"
-    done
+    local out
+    read out
+    echo "::debug::$out"
 }
 
 echo  "Install ESLint-PR-review Packages:" | deou
