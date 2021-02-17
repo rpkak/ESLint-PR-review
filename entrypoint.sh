@@ -2,7 +2,7 @@
 
 debug() {
     while read -r data; do
-        echo "$data"
+        echo "::debug::$data"
     done
 }
 
