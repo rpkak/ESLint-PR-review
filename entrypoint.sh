@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ESLint-PR-review
+npm ci --prefix ESLint-PR-review
 
-npm ci
-
-npm list
+npm list --prefix ESLint-PR-review
