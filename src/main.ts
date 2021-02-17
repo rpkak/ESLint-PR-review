@@ -11,6 +11,7 @@ const run = async (): Promise<void> => {
     if (!isAbsolute(projectRoot)) {
       projectRoot = join(process.cwd(), projectRoot)
     }
+    console.log(projectRoot)
     const eslint = new ESLint({
       cwd: projectRoot
     })
@@ -105,7 +106,7 @@ const run = async (): Promise<void> => {
       }
     }
   } catch (error) {
-    core.setFailed(error)
+    core.setFailed(error.message)
   }
 }
 
