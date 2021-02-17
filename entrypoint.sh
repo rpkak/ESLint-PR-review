@@ -8,11 +8,14 @@ debug() {
 
 echo  "Install ESLint-PR-review Packages:" | debug
 npm ci --prefix /ESLint-PR-review | debug
-ls
+
 echo "Build ESLint-PR-review:" | debug
 npm run build --prefix /ESLint-PR-review | debug
-ls
+
+echo "Build ESLint-PR-review:" | debug
+npm run package --prefix /ESLint-PR-review | debug
+
 echo "Install Project Packages:" | debug
 npm ci --prefix $1 | debug
 
-npm start --prefix /ESLint-PR-review
+node lib/main.js
