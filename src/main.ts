@@ -15,6 +15,7 @@ const run = async (): Promise<void> => {
     const eslint = new ESLint({
       cwd: projectRoot
     })
+    console.log(projectRoot)
 
     const resultArr = await eslint.lintFiles(argv[3])
     if (context.eventName === 'pull_request') {
