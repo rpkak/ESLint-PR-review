@@ -1,8 +1,9 @@
 #!/bin/bash
 
 debug() {
-    read out
-    echo $out
+    while read -r data; do
+        echo "$data"
+    done
 }
 
 echo  "Install ESLint-PR-review Packages:" | debug
