@@ -11,11 +11,9 @@ const run = async (): Promise<void> => {
     if (!isAbsolute(projectRoot)) {
       projectRoot = join(process.cwd(), projectRoot)
     }
-    console.log(projectRoot)
     const eslint = new ESLint({
       cwd: projectRoot
     })
-    console.log(projectRoot)
 
     const resultArr = await eslint.lintFiles(argv[3])
     if (context.eventName === 'pull_request') {
@@ -65,7 +63,7 @@ const run = async (): Promise<void> => {
           }
         }
       }
-      console.log(projectRoot)
+      console.log(comments)
 
       const review = await octokit.pulls.createReview({
         ...context.repo,
@@ -78,7 +76,6 @@ const run = async (): Promise<void> => {
           accept: 'application/vnd.github.v3+json'
         }
       })
-      console.log(projectRoot)
       await octokit.pulls.submitReview({
         ...context.repo,
         event: comments.length ? 'REQUEST_CHANGES' : 'APPROVE',
