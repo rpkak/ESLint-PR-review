@@ -19,7 +19,14 @@ const run = async (): Promise<void> => {
     if (context.eventName === 'pull_request') {
       const octokit = getOctokit(argv[4])
 
-      const comments = []
+      const comments = [
+        {
+          path: 'src/test.ts',
+          body: 'hi',
+          start_line: 2,
+          line: 4
+        }
+      ]
       // for (const file of resultArr) {
       //   for (const message of file.messages) {
       //     if (message.fix) {
@@ -71,7 +78,7 @@ const run = async (): Promise<void> => {
         body: comments.length
           ? `## ${comments.length} Problems found`
           : undefined,
-        // comments,
+        comments,
         headers: {
           accept: 'application/vnd.github.v3+json'
         }
