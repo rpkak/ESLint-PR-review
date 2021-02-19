@@ -67,30 +67,24 @@ const run = async (): Promise<void> => {
       }
       console.log(projectRoot)
 
-      const review = await octokit.request(
-        'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
-        {
-          ...context.repo,
-          pull_number: context.payload.pull_request?.number as number,
-          body: comments.length
-            ? `## ${comments.length} Problems found`
-            : undefined,
-          comments,
-          headers: {
-            accept: 'application/vnd.github.v3+json'
-          }
+      const review = await octokit.pulls.createReview({
+        ...context.repo,
+        pull_number: context.payload.pull_request?.number as number,
+        body: comments.length
+          ? `## ${comments.length} Problems found`
+          : undefined,
+        comments,
+        headers: {
+          accept: 'application/vnd.github.v3+json'
         }
-      )
-    console.log(projectRoot)
-    await octokit.request(
-        'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events',
-        {
-          ...context.repo,
-          event: comments.length ? 'REQUEST_CHANGES' : 'APPROVE',
-          pull_number: context.payload.pull_request?.number as number,
-          review_id: review.data.id
-        }
-      )
+      })
+      console.log(projectRoot)
+      await octokit.pulls.submitReview({
+        ...context.repo,
+        event: comments.length ? 'REQUEST_CHANGES' : 'APPROVE',
+        pull_number: context.payload.pull_request?.number as number,
+        review_id: review.data.id
+      })
       if (comments.length) {
         const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
