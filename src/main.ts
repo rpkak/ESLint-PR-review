@@ -71,7 +71,7 @@ const run = async (): Promise<void> => {
         body: comments.length
           ? `## ${comments.length} Problems found`
           : undefined,
-        comments,
+        // comments,
         headers: {
           accept: 'application/vnd.github.v3+json'
         }
