@@ -85,7 +85,8 @@ const run = async (): Promise<void> => {
       if (comments.length) {
         const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
-        core.setFailed(formatted)
+      console.log("pr")
+      core.setFailed(formatted)
       }
     } else {
       if (
@@ -96,7 +97,8 @@ const run = async (): Promise<void> => {
       ) {
         const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
-        core.setFailed(formatted)
+      console.log("not pr")
+      core.setFailed(formatted)
       }
     }
   } catch (error) {
