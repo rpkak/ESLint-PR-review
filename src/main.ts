@@ -3,10 +3,11 @@ import {context, getOctokit} from '@actions/github'
 import {ESLint} from 'eslint'
 import {readFileSync} from 'fs'
 import {isAbsolute, join} from 'path'
+import {argv} from 'process'
 
 const run = async (): Promise<void> => {
   try {
-    let projectRoot = core.getInput('project-root')
+    let projectRoot = argv[2]
     if (!isAbsolute(projectRoot)) {
       projectRoot = join(process.cwd(), projectRoot)
     }
@@ -14,11 +15,23 @@ const run = async (): Promise<void> => {
       cwd: projectRoot
     })
 
-    const resultArr = await eslint.lintFiles(core.getInput('src'))
+    const resultArr = await eslint.lintFiles(argv[3])
     if (context.eventName === 'pull_request') {
-      const octokit = getOctokit(core.getInput('github-token'))
+      const octokit = getOctokit(argv[4])
 
-      const comments = []
+      const filesChanged = (
+        await octokit.pulls.listFiles({
+          ...context.repo,
+          pull_number: context.payload.pull_request?.number as number
+        })
+      ).data.map(file => file.filename)
+
+      const allComments: {
+        path: string
+        body: string
+        start_line?: number
+        line: number
+      }[] = []
       for (const file of resultArr) {
         for (const message of file.messages) {
           if (message.fix) {
@@ -43,7 +56,7 @@ const run = async (): Promise<void> => {
 
             startLine++
             line++
-            comments.push({
+            allComments.push({
               path: file.filePath.replace(`${process.cwd()}/`, ''),
               body: `${message.message}\n\`\`\`suggestion\n${newLines.join(
                 '\n'
@@ -52,44 +65,76 @@ const run = async (): Promise<void> => {
               line
             })
           } else {
-            comments.push({
+            allComments.push({
               path: file.filePath.replace(`${process.cwd()}/`, ''),
               body: message.message,
               start_line:
                 message.line === message.endLine ? undefined : message.line,
-              line: message.endLine
+              line: message.endLine as number
             })
           }
         }
       }
-
-      const review = await octokit.request(
-        'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews',
+      const comments = []
+      const bodyComments = new Map<
+        string,
         {
-          ...context.repo,
-          pull_number: context.payload.pull_request?.number as number,
-          body: comments.length
-            ? `## ${comments.length} Problems found`
-            : undefined,
-          comments,
-          headers: {
-            accept: 'application/vnd.github.v3+json'
+          path: string
+          body: string
+          start_line?: number
+          line: number
+        }[]
+      >()
+
+      for (const comment of allComments) {
+        if (filesChanged.includes(comment.path)) {
+          comments.push(comment)
+        } else {
+          if (bodyComments.has(comment.path)) {
+            bodyComments.get(comment.path)?.push(comment)
+          } else {
+            bodyComments.set(comment.path, [comment])
           }
         }
-      )
-      await octokit.request(
-        'POST /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events',
-        {
-          ...context.repo,
-          event: comments.length ? 'REQUEST_CHANGES' : 'APPROVE',
-          pull_number: context.payload.pull_request?.number as number,
-          review_id: review.data.id
+      }
+
+      const review = await octokit.pulls.createReview({
+        ...context.repo,
+        pull_number: context.payload.pull_request?.number as number,
+        body: allComments.length
+          ? `## ${allComments.length} Problems found${
+              bodyComments.size
+                ? `\n${[...bodyComments.entries()]
+                    .map(
+                      ([path, commentArr]) =>
+                        `### ${path}\n${commentArr
+                          .map(
+                            comment =>
+                              `${
+                                comment.start_line === undefined
+                                  ? `Line ${comment.line}:`
+                                  : `From line ${comment.start_line} to ${comment.line}:`
+                              }\n${comment.body}`
+                          )
+                          .join('\n---\n')}`
+                    )
+                    .join('\n')}`
+                : ''
+            }`
+          : undefined,
+        comments,
+        headers: {
+          accept: 'application/vnd.github.v3+json'
         }
-      )
-      if (comments.length) {
-        const formatter = await eslint.loadFormatter(
-          core.getInput('eslint-format')
-        )
+      })
+      await octokit.pulls.submitReview({
+        ...context.repo,
+        event: allComments.length ? 'REQUEST_CHANGES' : 'APPROVE',
+        pull_number: context.payload.pull_request?.number as number,
+        review_id: review.data.id
+      })
+      if (allComments.length) {
+        const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
       }
@@ -100,9 +145,7 @@ const run = async (): Promise<void> => {
           0
         )
       ) {
-        const formatter = await eslint.loadFormatter(
-          core.getInput('eslint-format')
-        )
+        const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
         core.setFailed(formatted)
       }
