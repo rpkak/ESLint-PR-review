@@ -16,7 +16,6 @@ const run = async (): Promise<void> => {
     })
 
     const resultArr = await eslint.lintFiles(argv[3])
-    console.log(context)
     if (context.eventName === 'pull_request') {
       const octokit = getOctokit(argv[4])
 
@@ -76,7 +75,6 @@ const run = async (): Promise<void> => {
           }
         }
       }
-      console.log(allComments)
       const comments = []
       const bodyComments = new Map<
         string,
@@ -138,7 +136,6 @@ const run = async (): Promise<void> => {
       if (allComments.length) {
         const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
-        console.log('pr')
         core.setFailed(formatted)
       }
     } else {
@@ -150,7 +147,6 @@ const run = async (): Promise<void> => {
       ) {
         const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
-        console.log('not pr')
         core.setFailed(formatted)
       }
     }
