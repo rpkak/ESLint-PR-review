@@ -16,6 +16,7 @@ const run = async (): Promise<void> => {
     })
 
     const resultArr = await eslint.lintFiles(argv[3])
+    console.log(context)
     if (context.eventName === 'pull_request') {
       const octokit = getOctokit(argv[4])
 
