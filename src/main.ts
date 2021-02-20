@@ -67,16 +67,11 @@ const run = async (): Promise<void> => {
       console.log(comments)
 
       for (const comment of comments) {
-        try {
-          const reviewComment = await octokit.pulls.createReviewComment({
-            ...context.repo,
-            pull_number: context.payload.pull_request?.number as number,
-            ...comment
-          })
-          console.log(reviewComment)
-        } catch (error) {
-          console.log(error.message)
-        }
+        const reviewComment = await octokit.pulls.createReviewComment({
+          ...context.repo,
+          pull_number: context.payload.pull_request?.number as number,
+          ...comment
+        })
       }
 
       // const review = await octokit.pulls.createReview({
