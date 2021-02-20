@@ -75,7 +75,7 @@ const run = async (): Promise<void> => {
           })
           console.log(reviewComment)
         } catch (error) {
-          console.log(error)
+          console.log(JSON.stringify(error))
         }
       }
 
