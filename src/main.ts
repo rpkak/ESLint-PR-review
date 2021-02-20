@@ -75,7 +75,7 @@ const run = async (): Promise<void> => {
           })
           console.log(reviewComment)
         } catch (error) {
-          console.log(typeof error)
+          console.log(error.messages)
         }
       }
 
