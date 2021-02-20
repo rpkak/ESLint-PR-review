@@ -45,7 +45,7 @@ const run = async (): Promise<void> => {
             startLine++
             line++
             comments.push({
-              path: file.filePath,
+              path: file.filePath.replace(`${process.cwd()}/`, ''),
               body: `${message.message}\n\`\`\`suggestion\n${newLines.join(
                 '\n'
               )}\n\`\`\``,
@@ -54,7 +54,7 @@ const run = async (): Promise<void> => {
             })
           } else {
             comments.push({
-              path: file.filePath,
+              path: file.filePath.replace(`${process.cwd()}/`, ''),
               body: message.message,
               start_line:
                 message.line === message.endLine ? undefined : message.line,
