@@ -20,59 +20,66 @@ const run = async (): Promise<void> => {
     if (context.eventName === 'pull_request') {
       const octokit = getOctokit(argv[4])
 
-      const comments = []
-      for (const file of resultArr) {
-        for (const message of file.messages) {
-          if (message.fix) {
-            const normalFileContent = readFileSync(file.filePath).toString()
-            const normalLines = normalFileContent.split('\n')
-            const fixedFileContent =
-              normalFileContent.substr(0, message.fix.range[0]) +
-              message.fix.text +
-              normalFileContent.substr(message.fix.range[1])
-            const fixedLines = fixedFileContent.split('\n')
-            let startLine = 0
-            while (normalLines[startLine] === fixedLines[startLine]) {
-              startLine++
-            }
-            const difference = normalLines.length - fixedLines.length
-            let line = normalLines.length
-            while (normalLines[line] === fixedLines[line - difference]) {
-              line--
-            }
-
-            const newLines = fixedLines.slice(startLine, line - difference + 1)
-
-            startLine++
-            line++
-            comments.push({
-              path: file.filePath.replace(`${process.cwd()}/`, '/'),
-              body: `${message.message}\n\`\`\`suggestion\n${newLines.join(
-                '\n'
-              )}\n\`\`\``,
-              start_line: startLine === line ? undefined : startLine,
-              line
-            })
-          } else {
-            comments.push({
-              path: file.filePath.replace(`${process.cwd()}/`, '/'),
-              body: message.message,
-              start_line:
-                message.line === message.endLine ? undefined : message.line,
-              line: message.endLine
-            })
-          }
-        }
-      }
-      console.log(comments)
-
-      for (const comment of comments) {
-        const reviewComment = await octokit.pulls.createReviewComment({
+      core.info(JSON.stringify(
+        await octokit.pulls.listFiles({
           ...context.repo,
-          pull_number: context.payload.pull_request?.number as number,
-          ...comment
-        })
-      }
+          pull_number: context.payload.pull_request?.number as number
+        }))
+      )
+
+      // const comments = []
+      // for (const file of resultArr) {
+      //   for (const message of file.messages) {
+      //     if (message.fix) {
+      //       const normalFileContent = readFileSync(file.filePath).toString()
+      //       const normalLines = normalFileContent.split('\n')
+      //       const fixedFileContent =
+      //         normalFileContent.substr(0, message.fix.range[0]) +
+      //         message.fix.text +
+      //         normalFileContent.substr(message.fix.range[1])
+      //       const fixedLines = fixedFileContent.split('\n')
+      //       let startLine = 0
+      //       while (normalLines[startLine] === fixedLines[startLine]) {
+      //         startLine++
+      //       }
+      //       const difference = normalLines.length - fixedLines.length
+      //       let line = normalLines.length
+      //       while (normalLines[line] === fixedLines[line - difference]) {
+      //         line--
+      //       }
+
+      //       const newLines = fixedLines.slice(startLine, line - difference + 1)
+
+      //       startLine++
+      //       line++
+      //       comments.push({
+      //         path: file.filePath.replace(`${process.cwd()}/`, '/'),
+      //         body: `${message.message}\n\`\`\`suggestion\n${newLines.join(
+      //           '\n'
+      //         )}\n\`\`\``,
+      //         start_line: startLine === line ? undefined : startLine,
+      //         line
+      //       })
+      //     } else {
+      //       comments.push({
+      //         path: file.filePath.replace(`${process.cwd()}/`, '/'),
+      //         body: message.message,
+      //         start_line:
+      //           message.line === message.endLine ? undefined : message.line,
+      //         line: message.endLine
+      //       })
+      //     }
+      //   }
+      // }
+      // console.log(comments)
+
+      // for (const comment of comments) {
+      //   const reviewComment = await octokit.pulls.createReviewComment({
+      //     ...context.repo,
+      //     pull_number: context.payload.pull_request?.number as number,
+      //     ...comment
+      //   })
+      // }
 
       // const review = await octokit.pulls.createReview({
       //   ...context.repo,
