@@ -21,7 +21,7 @@ const run = async (): Promise<void> => {
 
       const comments = [
         {
-          path: '.eslintrc.json',
+          path: './.eslintrc.json',
           body: "Expected linebreaks to be 'CRLF' but found 'LF'.\n```suggestion\n\r\n```",
           // start_line: undefined,
           line: 4
