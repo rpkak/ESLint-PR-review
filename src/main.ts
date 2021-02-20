@@ -66,28 +66,41 @@ const run = async (): Promise<void> => {
       }
       console.log(comments)
 
-      const review = await octokit.pulls.createReview({
-        ...context.repo,
-        pull_number: context.payload.pull_request?.number as number,
-        body: comments.length
-          ? `## ${comments.length} Problems found`
-          : undefined,
-        comments,
-        headers: {
-          accept: 'application/vnd.github.v3+json'
+      for (const comment of comments) {
+        try {
+          const reviewComment = await octokit.pulls.createReviewComment({
+            ...context.repo,
+            pull_number: context.payload.pull_request?.number as number,
+            ...comment
+          })
+          console.log(reviewComment)
+        } catch (error) {
+          console.log(error)
         }
-      })
-      await octokit.pulls.submitReview({
-        ...context.repo,
-        event: comments.length ? 'REQUEST_CHANGES' : 'APPROVE',
-        pull_number: context.payload.pull_request?.number as number,
-        review_id: review.data.id
-      })
+      }
+
+      // const review = await octokit.pulls.createReview({
+      //   ...context.repo,
+      //   pull_number: context.payload.pull_request?.number as number,
+      //   body: comments.length
+      //     ? `## ${comments.length} Problems found`
+      //     : undefined,
+      //   comments,
+      //   headers: {
+      //     accept: 'application/vnd.github.v3+json'
+      //   }
+      // })
+      // await octokit.pulls.submitReview({
+      //   ...context.repo,
+      //   event: comments.length ? 'REQUEST_CHANGES' : 'APPROVE',
+      //   pull_number: context.payload.pull_request?.number as number,
+      //   review_id: review.data.id
+      // })
       if (comments.length) {
         const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
-      console.log("pr")
-      core.setFailed(formatted)
+        console.log("pr")
+        core.setFailed(formatted)
       }
     } else {
       if (
@@ -98,8 +111,8 @@ const run = async (): Promise<void> => {
       ) {
         const formatter = await eslint.loadFormatter(argv[5])
         const formatted = formatter.format(resultArr)
-      console.log("not pr")
-      core.setFailed(formatted)
+        console.log("not pr")
+        core.setFailed(formatted)
       }
     }
   } catch (error) {
