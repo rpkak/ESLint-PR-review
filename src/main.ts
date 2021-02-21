@@ -32,9 +32,10 @@ const run = async (): Promise<void> => {
           ) ||
             review.state === 'APPROVE')
       )
-      core.info(JSON.stringify(oldReviews))
+      // core.info(JSON.stringify(oldReviews))
       if (oldReviews.length) {
         const oldReview = oldReviews[oldReviews.length - 1]
+        core.info(JSON.stringify(oldReview))
 
         if (oldReview.state === 'REQUEST_CHANGES') {
           await octokit.pulls.updateReview({
