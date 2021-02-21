@@ -26,7 +26,7 @@ const run = async (): Promise<void> => {
       })
     ).data
       .filter(pull => pull.head.sha === context.sha)
-      .map(pull => pull.id)
+      .map(pull => pull.number)
 
     core.info(JSON.stringify(pullNumbers))
 
