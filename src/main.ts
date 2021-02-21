@@ -28,8 +28,6 @@ const run = async (): Promise<void> => {
       .filter(pull => pull.head.sha === context.sha)
       .map(pull => pull.number)
 
-    core.info(JSON.stringify(pullNumbers))
-
     for (const pull_number of pullNumbers) {
       const oldReviews = (
         await octokit.pulls.listReviews({
