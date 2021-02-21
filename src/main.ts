@@ -19,20 +19,14 @@ const run = async (): Promise<void> => {
 
     const octokit = getOctokit(argv[4])
 
-    const pullNumbers: number[] = []
-    if (context.eventName === 'pull_request') {
-      pullNumbers.push(context.payload.pull_request?.number as number)
-    }
-    pullNumbers.push(
-      ...(
-        await octokit.pulls.list({
-          ...context.repo,
-          state: 'open'
-        })
-      ).data
-        .filter(pull => pull.head.sha === context.sha)
-        .map(pull => pull.id)
-    )
+    const pullNumbers: number[] = (
+      await octokit.pulls.list({
+        ...context.repo,
+        state: 'open'
+      })
+    ).data
+      .filter(pull => pull.head.sha === context.sha)
+      .map(pull => pull.id)
 
     for (const pull_number of pullNumbers) {
       const oldReviews = (
