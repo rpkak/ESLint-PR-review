@@ -32,6 +32,7 @@ const run = async (): Promise<void> => {
           ) ||
             review.state === 'APPROVE')
       )
+      core.info(JSON.stringify(oldReviews))
       if (oldReviews.length) {
         const oldReview = oldReviews[oldReviews.length - 1]
 
