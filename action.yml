@@ -20,6 +20,10 @@ inputs:
     required: false
     description: 'The ESLint format for displaying in log. View https://eslint.org/docs/user-guide/formatters/'
     default: stylish
+  approve-mode:
+    required: false
+    description: 'Use "approve-always" if the PR should approved even if it is approved already. Use "after-change-request" otherwise.'
+    default: approve-always
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -28,3 +32,4 @@ runs:
     - ${{ inputs.src }}
     - ${{ inputs.github-token }}
     - ${{ inputs.eslint-format }}
+    - ${{ inputs.approve-mode }}
