@@ -6,6 +6,7 @@ import {isAbsolute, join} from 'path'
 import {argv} from 'process'
 
 const run = async (): Promise<void> => {
+  core.info(JSON.stringify(context))
   try {
     let projectRoot = argv[2]
     if (!isAbsolute(projectRoot)) {
