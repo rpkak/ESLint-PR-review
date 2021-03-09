@@ -2,22 +2,18 @@ import * as core from '@actions/core'
 import {context, getOctokit} from '@actions/github'
 import {ESLint} from 'eslint'
 import {readFileSync} from 'fs'
-import {isAbsolute, join} from 'path'
 import {argv} from 'process'
 
 const run = async (): Promise<void> => {
   try {
-    let projectRoot = argv[2]
-    if (!isAbsolute(projectRoot)) {
-      projectRoot = join(process.cwd(), projectRoot)
+    const parsed = JSON.parse(argv[2]) as {
+      resultArr: ESLint.LintResult[]
+      formatted: string
     }
-    const eslint = new ESLint({
-      cwd: projectRoot
-    })
-
-    const resultArr = await eslint.lintFiles(argv[3])
-
-    const octokit = getOctokit(argv[4])
+    const resultArr = parsed.resultArr
+    const formatted = parsed.formatted
+    const octokit = getOctokit(argv[3])
+    const approveMode = argv[4]
 
     const pullNumbers: number[] = (
       await octokit.pulls.list({
@@ -88,10 +84,12 @@ const run = async (): Promise<void> => {
           if (message.fix) {
             const normalFileContent = readFileSync(file.filePath).toString()
             const normalLines = normalFileContent.split('\n')
-            const fixedFileContent =
-              normalFileContent.substr(0, message.fix.range[0]) +
-              message.fix.text +
-              normalFileContent.substr(message.fix.range[1])
+            const fixedFileContent = `${normalFileContent.substr(
+              0,
+              message.fix.range[0]
+            )}${message.fix.text}${normalFileContent.substr(
+              message.fix.range[1]
+            )}`
             const fixedLines = fixedFileContent.split('\n')
             let startLine = 0
             while (normalLines[startLine] === fixedLines[startLine]) {
@@ -153,7 +151,7 @@ const run = async (): Promise<void> => {
         !oldReviews.length ||
         (oldReviews.length &&
           oldReviews[oldReviews.length - 1].state === 'CHANGES_REQUESTED') ||
-        argv[6] === 'approve-always'
+        approveMode === 'approve-always'
       ) {
         const review = await octokit.pulls.createReview({
           ...context.repo,
@@ -200,8 +198,6 @@ const run = async (): Promise<void> => {
         0
       )
     ) {
-      const formatter = await eslint.loadFormatter(argv[5])
-      const formatted = formatter.format(resultArr)
       core.setFailed(formatted)
     }
   } catch (error) {
