@@ -20,7 +20,7 @@ cd "$1"
 echo  "Install Project Packages:" | debug
 npm ci | debug
 
-eslint_json="$(/ESLint-PR-review/lib/eslint.js "$2" "$4")"
+eslint_json="$(node /ESLint-PR-review/lib/eslint.js "$2" "$4")"
 
 cd "/github/workspace"
 
