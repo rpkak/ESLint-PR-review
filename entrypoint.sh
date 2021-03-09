@@ -6,13 +6,22 @@ debug() {
     done
 }
 
+cd "/ESLint-PR-review"
+
 echo  "Install ESLint-PR-review Packages:" | debug
-npm ci --prefix /ESLint-PR-review | debug
+npm ci | debug
 
 echo "Build ESLint-PR-review:" | debug
-npm run build --prefix /ESLint-PR-review | debug
+npm run build | debug
+
+cd "/github/workspace"
+cd "$1"
 
 echo  "Install Project Packages:" | debug
-npm ci --prefix "$1" | debug
+npm ci | debug
 
-node /ESLint-PR-review/lib/main.js $1 $2 $3 $4 $5
+eslint_json="$(node /ESLint-PR-review/lib/eslint.js "$2" "$4")"
+
+cd "/github/workspace"
+
+node /ESLint-PR-review/lib/main.js "$eslint_json" "$3" "$5"
