@@ -15,9 +15,9 @@ Default: `.`
 
 What you want to lint. Relative to `project-root`.
 
-Default: `./**/*`
+Default: `.`
 
-Example: `./src/**/*.ts` (Lints every typescript file in the source folder)
+Example: `src` (Lints every lintable file in the source folder)
 
 ### `github-token`
 
@@ -58,7 +58,7 @@ jobs:
       - uses: rpkak/ESLint-PR-review@latest
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          src: ./src/**/*.ts
+          src: src
           eslint-format: table
 ```
 
@@ -68,6 +68,6 @@ Use `rpkak/ESLint-PR-review@latest` to get the latest none development version E
 
 Please report everything like bugs by creating an [issue](https://github.com/rpkak/ESLint-PR-review/issues/new/choose).
 
-Version: v1.0.0
+Version: v1.0.1
 
 by [rpkak](https://github.com/rpkak)
