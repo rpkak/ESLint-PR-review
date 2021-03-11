@@ -1,14 +1,15 @@
-name: 'build-test'
-on: # rebuild any PRs and main branch changes
+name: ESLint PR review / Syntax check
+
+on:
   push:
 
 jobs:
-  test: # make sure the action works on a clean machine without building
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
       - uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          src: ./src/**.ts
+          src: src
+          eslint-format: table
