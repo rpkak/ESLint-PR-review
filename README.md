@@ -43,6 +43,12 @@ Default: `approve-always`
 
 Example: `after-change-request`
 
+### `extensions`
+
+Comma separated list of file the fileendings, ESLint should lint.
+
+Default: `js,jsx,ts,tsx`
+
 ## Example usage:
 ```yaml
 name: ESLint PR review
