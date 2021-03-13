@@ -37,3 +37,4 @@ runs:
     - ${{ inputs.github-token }}
     - ${{ inputs.eslint-format }}
     - ${{ inputs.approve-mode }}
+    - ${{ inputs.extensions }}
