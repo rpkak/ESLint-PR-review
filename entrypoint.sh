@@ -6,15 +6,6 @@ debug() {
     done
 }
 
-cd "/ESLint-PR-review"
-
-echo  "Install ESLint-PR-review Packages:" | debug
-npm ci | debug
-
-echo "Build ESLint-PR-review:" | debug
-npm run build | debug
-
-cd "/github/workspace"
 cd "$1"
 
 echo  "Install Project Packages:" | debug
