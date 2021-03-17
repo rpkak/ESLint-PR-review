@@ -30,7 +30,7 @@ inputs:
     default: js,jsx,ts,tsx
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker.pkg.github.com/rpkak/eslint-pr-review/eslint-pr-review:1.2.0.test'
   args:
     - ${{ inputs.project-root }}
     - ${{ inputs.src }}
