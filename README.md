@@ -68,6 +68,10 @@ jobs:
           eslint-format: table
 ```
 
+## Example output:
+
+![example](https://user-images.githubusercontent.com/67059904/116257821-acad1000-a774-11eb-82e4-edaef33a4c97.png)
+
 ## Infos
 
 Use `rpkak/ESLint-PR-review@latest` to get the latest none development version ESLint PR review.
