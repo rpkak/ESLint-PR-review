@@ -76,6 +76,6 @@ Use `rpkak/ESLint-PR-review@latest` to get the latest none development version E
 
 Please report everything like bugs by creating an [issue](https://github.com/rpkak/ESLint-PR-review/issues/new/choose).
 
-Version: v1.1.0
+Version: v1.2.0
 
 by [rpkak](https://github.com/rpkak)
