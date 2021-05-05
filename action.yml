@@ -22,7 +22,7 @@ inputs:
     default: stylish
   approve-mode:
     required: false
-    description: 0 for dismissing change-requests, 1 for approving after change-requests, 2 far approving always if ESLint doesn't fail
+    description: 0 for dismissing change-requests, 1 for approving after change-requests, 2 for approving always if ESLint doesn't fail
     default: 0
   extensions:
     required: false
