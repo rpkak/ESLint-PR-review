@@ -37,11 +37,9 @@ Examples: `codeframe`, `compact`, `table`, `tap`, `unix`, `visualstudio`
 
 ### `approve-mode`
 
-If `approve-mode` is `after-change-request` the bot will only approve, if the pull request isn't approved by ESLint PR review yet.
+0 for dismissing change-requests, 1 for approving after change-requests, 2 for approving always if ESLint doesn't fail
 
-Default: `approve-always`
-
-Example: `after-change-request`
+Default: `0`
 
 ### `extensions`
 
