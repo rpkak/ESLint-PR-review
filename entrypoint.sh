@@ -22,6 +22,9 @@ npm ci | debug
 
 eslint_json="$(node /ESLint-PR-review/lib/eslint.js "$2" "$4" "$6")"
 
+echo "JSON output:" | debug
+echo "$eslint_json" | debug
+
 cd "/github/workspace"
 
 node /ESLint-PR-review/lib/main.js "$eslint_json" "$3" "$5"
