@@ -47,6 +47,14 @@ Comma separated list of file the fileendings, ESLint should lint.
 
 Default: `js,jsx,ts,tsx`
 
+### `node-version`
+
+Version of node for project packages.
+
+Default: `node` (latest version)
+
+Examples: `12`, `v10.12`
+
 ## Example usage:
 ```yaml
 name: ESLint PR review

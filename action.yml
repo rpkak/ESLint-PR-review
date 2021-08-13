@@ -28,6 +28,10 @@ inputs:
     required: false
     description: 'Comma separated list of file the fileendings, ESLint should lint.'
     default: js,jsx,ts,tsx
+  node-version:
+    required: false
+    description: 'Version of node for project packages.'
+    default: node
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -38,3 +42,4 @@ runs:
     - ${{ inputs.eslint-format }}
     - ${{ inputs.approve-mode }}
     - ${{ inputs.extensions }}
+    - ${{ inputs.node-version }}
