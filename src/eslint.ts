@@ -1,6 +1,6 @@
-import {argv} from 'process'
-import {ESLint} from 'eslint'
 import * as core from '@actions/core'
+import {ESLint} from 'eslint'
+import {argv} from 'process'
 
 const run = async (): Promise<void> => {
   try {

@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
 import {context, getOctokit} from '@actions/github'
 import {ESLint} from 'eslint'
-import {readFileSync} from 'fs'
 import {argv} from 'process'
+import {readFileSync} from 'fs'
 
 const run = async (): Promise<void> => {
   try {
