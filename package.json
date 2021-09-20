@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/eslint": "^7.28.0",
     "@typescript-eslint/parser": "^4.31.1",
-    "@types/node": "^16.9.2",
+    "@types/node": "^16.9.4",
     "eslint-plugin-github": "^4.3.0",
     "js-yaml": "^4.1.0",
     "prettier": "2.4.1",
