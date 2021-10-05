@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^7.28.0",
-    "@typescript-eslint/parser": "^4.32.0",
+    "@typescript-eslint/parser": "^4.33.0",
     "@types/node": "^16.10.2",
     "eslint-plugin-github": "^4.3.0",
     "js-yaml": "^4.1.0",
